@@ -3,7 +3,6 @@
 const generateBtn = document.getElementById("generate-btn");
 const paletteContainer = document.querySelector(".palette-container");
 
-
 generateBtn.addEventListener("click", generatePalette);
 
 paletteContainer.addEventListener("click", function (e) {
@@ -19,20 +18,41 @@ paletteContainer.addEventListener("click", function (e) {
       e.target.nextElementSibling.querySelector(".hex-value").textContent;
     navigator.clipboard
       .writeText(hexValue)
-      .then(() => showCopySucess(e.target.nextElementSibling.querySelector(".copy-btn")))
+      .then(() =>
+        showCopySucess(e.target.nextElementSibling.querySelector(".copy-btn")),
+      )
       .catch((err) => alert(err));
   }
+  // LOCK BUTTON
+else if (
+  e.target.classList.contains("lock-btn") ||
+  e.target.closest(".lock-btn")
+) {
+  const lockBtn = e.target.closest(".lock-btn");
+  const box = lockBtn.closest(".color-box");
+  const icon = lockBtn.querySelector("i");
+
+  const isLocked = box.classList.toggle("locked");
+
+  if (isLocked) {
+    icon.classList.remove("fa-lock-open");
+    icon.classList.add("fa-lock");
+  } else {
+    icon.classList.remove("fa-lock");
+    icon.classList.add("fa-lock-open");
+  }
+}
 });
 
 function showCopySucess(element) {
-  element.classList.remove("far","fa-copy");
-  element.classList.add("fas","fa-check");
+  element.classList.remove("far", "fa-copy");
+  element.classList.add("fas", "fa-check");
 
   element.style.color = "#48bb78";
 
   setTimeout(() => {
-    element.classList.remove("fas","fa-check");
-    element.classList.add("far","fa-copy");
+    element.classList.remove("fas", "fa-check");
+    element.classList.add("far", "fa-copy");
     element.style.color = "";
   }, 1500);
 }
@@ -61,6 +81,8 @@ function updatePaletteDisplay(colors) {
   const colorBoxes = document.querySelectorAll(".color-box");
 
   colorBoxes.forEach((box, index) => {
+    if (box.classList.contains("locked")) return;
+
     const color = colors[index];
     const colorDiv = box.querySelector(".color");
     const hexValue = box.querySelector(".hex-value");

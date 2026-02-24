@@ -81,11 +81,31 @@ h1:after {
   overflow: hidden;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  position: relative;
 }
 
 .color-box:hover {
   transform: translateY(-5px);
 }
+
+.color-lock {
+  position: absolute;
+  right: 6px;
+  top: 4px;
+  padding: 7px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.color-lock:hover{
+  cursor: pointer;
+}
+
+.color-box.locked .color-lock {
+  color: #ffd700;
+}
+
+
 
 .color {
   height: 120px;
